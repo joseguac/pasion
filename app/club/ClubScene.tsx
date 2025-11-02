@@ -51,7 +51,7 @@ function Scene() {
     return [...Array(25)].map(() => ({
       position: [
         Math.random() * 800 - 400,
-        500,
+        Math.random() * 400 + 50, // Spread clouds vertically between 50-450
         Math.random() * 500 - 500,
       ] as [number, number, number],
       rotationZ: Math.random() * 2 * Math.PI
@@ -71,13 +71,23 @@ function Scene() {
       {/* Directional Light */}
       <directionalLight position={[0, 0, 1]} color={0xffeedd} />
       
-      {/* Red Point Light (replacing blue lightning) */}
+      {/* Red Point Lights from bottom corners */}
+      {/* Bottom Left Corner */}
       <pointLight 
-        position={[200, 300, 100]} 
+        position={[-300, -200, 100]} 
         color={0xff0000}
-        intensity={30}
-        distance={500}
-        decay={1.7}
+        intensity={50}
+        distance={800}
+        decay={1.5}
+      />
+      
+      {/* Bottom Right Corner */}
+      <pointLight 
+        position={[300, -200, 100]} 
+        color={0xff0000}
+        intensity={50}
+        distance={800}
+        decay={1.5}
       />
       
       {/* Smoke Clouds */}
