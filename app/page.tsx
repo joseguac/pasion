@@ -102,11 +102,11 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
           ×
         </button>
 
-        <h2 style={{ color: colorScheme.primary, marginBottom: "10px", fontSize: "28px" }}>
+        <h2 style={{ color: colorScheme.primary, marginBottom: "10px", fontSize: "28px", fontFamily: "'PE', sans-serif" }}>
           Déjanos Un Mensaje Aquí
         </h2>
 
-        <p style={{ color: "#999", fontSize: "14px", marginBottom: "30px" }}>
+        <p style={{ color: "#999", fontSize: "14px", marginBottom: "30px", fontFamily: "'PE', sans-serif" }}>
           Si unos de los numeros no contestan o solo prefiere mandar mensaje por aqui deje su numero o otro tipo de informacion.
         </p>
 
@@ -126,7 +126,8 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
               borderRadius: "8px",
               color: "#ffffff",
               fontSize: "16px",
-              outline: "none"
+              outline: "none",
+              fontFamily: "'PE', sans-serif"
             }}
           />
 
@@ -145,7 +146,8 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
               borderRadius: "8px",
               color: "#ffffff",
               fontSize: "16px",
-              outline: "none"
+              outline: "none",
+              fontFamily: "'PE', sans-serif"
             }}
           />
 
@@ -165,7 +167,8 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
               color: "#ffffff",
               fontSize: "16px",
               outline: "none",
-              resize: "vertical"
+              resize: "vertical",
+              fontFamily: "'PE', sans-serif"
             }}
           />
 
@@ -182,20 +185,21 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
               fontSize: "18px",
               fontWeight: "bold",
               cursor: isSubmitting ? "not-allowed" : "pointer",
-              opacity: isSubmitting ? 0.7 : 1
+              opacity: isSubmitting ? 0.7 : 1,
+              fontFamily: "'PE', sans-serif"
             }}
           >
             {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
           </button>
 
           {submitStatus === "success" && (
-            <p style={{ color: "#00ff00", marginTop: "15px", textAlign: "center" }}>
+            <p style={{ color: "#00ff00", marginTop: "15px", textAlign: "center", fontFamily: "'PE', sans-serif" }}>
               ¡Mensaje enviado con éxito!
             </p>
           )}
 
           {submitStatus === "error" && (
-            <p style={{ color: colorScheme.primary, marginTop: "15px", textAlign: "center" }}>
+            <p style={{ color: colorScheme.primary, marginTop: "15px", textAlign: "center", fontFamily: "'PE', sans-serif" }}>
               Error al enviar. Por favor intenta de nuevo.
             </p>
           )}
@@ -321,13 +325,13 @@ export default function Home() {
             scrollbarColor: "rgba(255, 255, 255, 0.2) transparent" // Firefox
           }}>
           {loading ? (
-            <p style={{ color: "#999", textAlign: "center" }}>Loading...</p>
+            <p style={{ color: "#999", textAlign: "center", fontFamily: "'PE', sans-serif" }}>Loading...</p>
           ) : (
             <>
               {/* Upcoming Shows */}
               {upcomingShows.length > 0 && (
                 <div style={{ marginBottom: "30px" }}>
-                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px" }}>
+                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px", fontFamily: "'PE', sans-serif" }}>
                     Upcoming Shows
                   </h3>
                   {upcomingShows.map((show) => (
@@ -343,20 +347,20 @@ export default function Home() {
                         marginBottom: "15px"
                       }}
                     >
-                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px" }}>
+                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px", fontFamily: "'PE', sans-serif" }}>
                         {show.venue}
                       </h4>
-                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px", fontFamily: "'PE', sans-serif" }}>
                         📍 {show.location}
                       </p>
-                      <p style={{ color: colorScheme.primary, marginBottom: "5px", fontSize: "14px", fontWeight: "bold" }}>
+                      <p style={{ color: colorScheme.primary, marginBottom: "5px", fontSize: "14px", fontWeight: "bold", fontFamily: "'PE', sans-serif" }}>
                         📅 {formatDate(show.date)}
                       </p>
-                      <p style={{ color: "#999", fontSize: "14px" }}>
+                      <p style={{ color: "#999", fontSize: "14px", fontFamily: "'PE', sans-serif" }}>
                         🕐 {show.time}
                       </p>
                       {show.details && (
-                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px" }}>
+                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px", fontFamily: "'PE', sans-serif" }}>
                           ℹ️ {show.details}
                         </p>
                       )}
@@ -368,7 +372,7 @@ export default function Home() {
               {/* No Upcoming Shows Message */}
               {upcomingShows.length === 0 && (
                 <div style={{ marginBottom: "30px" }}>
-                  <p style={{ color: "#999", marginBottom: "20px", textAlign: "center", fontSize: "16px" }}>
+                  <p style={{ color: "#999", marginBottom: "20px", textAlign: "center", fontSize: "16px", fontFamily: "'PE', sans-serif" }}>
                     No upcoming shows right now — check out where we've played recently!
                   </p>
                 </div>
@@ -377,7 +381,7 @@ export default function Home() {
               {/* Past Shows */}
               {pastShows.length > 0 && (
                 <div>
-                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px" }}>
+                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px", fontFamily: "'PE', sans-serif" }}>
                     Past Shows
                   </h3>
                   {pastShows.map((show) => (
@@ -394,20 +398,20 @@ export default function Home() {
                         opacity: 0.7
                       }}
                     >
-                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px" }}>
+                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px", fontFamily: "'PE', sans-serif" }}>
                         {show.venue}
                       </h4>
-                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px", fontFamily: "'PE', sans-serif" }}>
                         📍 {show.location}
                       </p>
-                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px", fontFamily: "'PE', sans-serif" }}>
                         📅 {formatDate(show.date)}
                       </p>
-                      <p style={{ color: "#999", fontSize: "14px" }}>
+                      <p style={{ color: "#999", fontSize: "14px", fontFamily: "'PE', sans-serif" }}>
                         🕐 {show.time}
                       </p>
                       {show.details && (
-                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px" }}>
+                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px", fontFamily: "'PE', sans-serif" }}>
                           ℹ️ {show.details}
                         </p>
                       )}
