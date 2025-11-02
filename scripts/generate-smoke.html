@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smoke Texture Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #1a1a1a;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    canvas {
+      border: 2px solid #444;
+      margin: 20px;
+      max-width: 90vw;
+    }
+    button {
+      background: #ff0000;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background: #cc0000;
+    }
+    .info {
+      max-width: 600px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <h1>Smoke Texture Generator</h1>
+    <p>This tool generates a smoke texture for your nightclub scene.</p>
+    <p>Click "Generate" to create the texture, then "Download" to save it to <code>public/textures/</code></p>
+  </div>
+  
+  <canvas id="smokeCanvas" width="256" height="256"></canvas>
+  
+  <div>
+    <button onclick="generateSmoke()">Generate Smoke Texture</button>
+    <button onclick="downloadTexture()">Download as smoke.png</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('smokeCanvas');
+    const ctx = canvas.getContext('2d');
+    const size = 256;
+
+    function generateSmoke() {
+      // Clear with transparent background
+      ctx.clearRect(0, 0, size, size);
+      
+      // Draw multiple overlapping circles to create smoke-like pattern
+      const centerX = size / 2;
+      const centerY = size / 2;
+      
+      // Draw multiple blobs
+      const numBlobs = 15;
+      for (let i = 0; i < numBlobs; i++) {
+        const angle = (Math.PI * 2 * i) / numBlobs;
+        const distance = Math.random() * 40;
+        const blobX = centerX + Math.cos(angle) * distance;
+        const blobY = centerY + Math.sin(angle) * distance;
+        const radius = 30 + Math.random() * 50;
+        
+        const gradient = ctx.createRadialGradient(blobX, blobY, 0, blobX, blobY, radius);
+        gradient.addColorStop(0, `rgba(180, 180, 180, ${0.3 + Math.random() * 0.3})`);
+        gradient.addColorStop(0.5, `rgba(120, 120, 120, ${0.2 + Math.random() * 0.2})`);
+        gradient.addColorStop(1, 'rgba(80, 80, 80, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(blobX, blobY, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      // Add central soft glow
+      const mainGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, size / 2);
+      mainGradient.addColorStop(0, 'rgba(200, 200, 200, 0.5)');
+      mainGradient.addColorStop(0.4, 'rgba(150, 150, 150, 0.3)');
+      mainGradient.addColorStop(0.7, 'rgba(100, 100, 100, 0.1)');
+      mainGradient.addColorStop(1, 'rgba(50, 50, 50, 0)');
+      
+      ctx.fillStyle = mainGradient;
+      ctx.fillRect(0, 0, size, size);
+    }
+
+    function downloadTexture() {
+      canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'smoke.png';
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    // Generate on load
+    generateSmoke();
+  </script>
+</body>
+</html>
+
