@@ -304,15 +304,22 @@ export default function Home() {
         </button>
 
         {/* Shows Section */}
-        <div style={{
-          width: "100%",
-          marginTop: "20px",
-          maxHeight: showShows ? "5000px" : "0",
-          overflow: "hidden",
-          transition: "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
-          opacity: showShows ? 1 : 0,
-          padding: "20px"
-        }}>
+        <div 
+          className={showShows ? "shows-scroll" : ""}
+          style={{
+            width: "100%",
+            marginTop: "20px",
+            maxHeight: showShows ? "60vh" : "0",
+            overflowY: showShows ? "auto" : "hidden",
+            overflowX: "hidden",
+            transition: "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
+            opacity: showShows ? 1 : 0,
+            padding: "20px",
+            paddingBottom: showShows ? "40px" : "20px",
+            WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
+            scrollbarWidth: "thin", // Firefox
+            scrollbarColor: "rgba(255, 255, 255, 0.2) transparent" // Firefox
+          }}>
           {loading ? (
             <p style={{ color: "#999", textAlign: "center" }}>Loading...</p>
           ) : (

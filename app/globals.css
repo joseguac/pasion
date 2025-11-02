@@ -25,3 +25,21 @@ a {
   text-decoration: none;
 }
 
+/* Custom scrollbar for webkit browsers */
+.shows-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.shows-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.shows-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.shows-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
