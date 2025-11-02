@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
+import { ColorProvider } from './ColorContext'
 
 export const metadata: Metadata = {
   title: 'Pasión - Nightclub Experience',
@@ -28,7 +29,9 @@ export default function RootLayout({
             gtag('config', 'G-JXLVBZ0PHD');
           `}
         </Script>
-        {children}
+        <ColorProvider>
+          {children}
+        </ColorProvider>
       </body>
     </html>
   )

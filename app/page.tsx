@@ -3,6 +3,7 @@
 import Image from "next/image";
 import ClubScene from "./club/ClubScene";
 import { useState, useEffect } from "react";
+import { useColorScheme } from "./ColorContext";
 
 interface Show {
   id: number;
@@ -16,6 +17,7 @@ interface Show {
 }
 
 function ContactDialog({ onClose }: { onClose: () => void }) {
+  const colorScheme = useColorScheme();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -78,7 +80,7 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
           borderRadius: "12px",
           maxWidth: "500px",
           width: "90%",
-          border: "2px solid #ff0000",
+          border: `2px solid ${colorScheme.primary}`,
           position: "relative"
         }}
         onClick={(e) => e.stopPropagation()}
@@ -100,7 +102,7 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
           ×
         </button>
 
-        <h2 style={{ color: "#ff0000", marginBottom: "10px", fontSize: "28px" }}>
+        <h2 style={{ color: colorScheme.primary, marginBottom: "10px", fontSize: "28px" }}>
           Déjanos Un Mensaje Aquí
         </h2>
 
@@ -173,7 +175,7 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
             style={{
               width: "100%",
               padding: "15px",
-              backgroundColor: "#ff0000",
+              backgroundColor: colorScheme.primary,
               border: "none",
               borderRadius: "8px",
               color: "#ffffff",
@@ -193,7 +195,7 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
           )}
 
           {submitStatus === "error" && (
-            <p style={{ color: "#ff0000", marginTop: "15px", textAlign: "center" }}>
+            <p style={{ color: colorScheme.primary, marginTop: "15px", textAlign: "center" }}>
               Error al enviar. Por favor intenta de nuevo.
             </p>
           )}
@@ -204,6 +206,7 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
 }
 
 export default function Home() {
+  const colorScheme = useColorScheme();
   const [showContactDialog, setShowContactDialog] = useState(false);
   const [showShows, setShowShows] = useState(false);
   const [shows, setShows] = useState<Show[]>([]);
@@ -284,10 +287,10 @@ export default function Home() {
             background: "rgba(255, 255, 255, 0.05)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 0, 0, 0.2)",
+            border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
             borderRadius: "12px",
             padding: "15px 30px",
-            color: "#ff0000",
+            color: colorScheme.primary,
             fontSize: "18px",
             fontWeight: "bold",
             cursor: "pointer",
@@ -317,7 +320,7 @@ export default function Home() {
               {/* Upcoming Shows */}
               {upcomingShows.length > 0 && (
                 <div style={{ marginBottom: "30px" }}>
-                  <h3 style={{ color: "#ff0000", marginBottom: "15px", fontSize: "20px" }}>
+                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px" }}>
                     Upcoming Shows
                   </h3>
                   {upcomingShows.map((show) => (
@@ -327,7 +330,7 @@ export default function Home() {
                         background: "rgba(255, 255, 255, 0.05)",
                         backdropFilter: "blur(10px)",
                         WebkitBackdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 0, 0, 0.2)",
+                        border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
                         borderRadius: "8px",
                         padding: "20px",
                         marginBottom: "15px"
@@ -339,7 +342,7 @@ export default function Home() {
                       <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
                         📍 {show.location}
                       </p>
-                      <p style={{ color: "#ff0000", marginBottom: "5px", fontSize: "14px", fontWeight: "bold" }}>
+                      <p style={{ color: colorScheme.primary, marginBottom: "5px", fontSize: "14px", fontWeight: "bold" }}>
                         📅 {formatDate(show.date)}
                       </p>
                       <p style={{ color: "#999", fontSize: "14px" }}>
@@ -367,7 +370,7 @@ export default function Home() {
               {/* Past Shows */}
               {pastShows.length > 0 && (
                 <div>
-                  <h3 style={{ color: "#ff0000", marginBottom: "15px", fontSize: "20px" }}>
+                  <h3 style={{ color: colorScheme.primary, marginBottom: "15px", fontSize: "20px" }}>
                     Past Shows
                   </h3>
                   {pastShows.map((show) => (
@@ -377,7 +380,7 @@ export default function Home() {
                         background: "rgba(255, 255, 255, 0.05)",
                         backdropFilter: "blur(10px)",
                         WebkitBackdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 0, 0, 0.2)",
+                        border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
                         borderRadius: "8px",
                         padding: "20px",
                         marginBottom: "15px",
@@ -430,7 +433,7 @@ export default function Home() {
               background: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 0, 0, 0.2)",
+              border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
               borderRadius: "50%",
               width: "80px",
               height: "80px",
@@ -440,7 +443,7 @@ export default function Home() {
               boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
             }}
           >
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={colorScheme.primary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -457,7 +460,7 @@ export default function Home() {
               background: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 0, 0, 0.2)",
+              border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
               borderRadius: "50%",
               width: "80px",
               height: "80px",
@@ -467,7 +470,7 @@ export default function Home() {
               boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
             }}
           >
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={colorScheme.primary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
             </svg>
           </a>
@@ -479,7 +482,7 @@ export default function Home() {
               background: "rgba(255, 255, 255, 0.05)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 0, 0, 0.2)",
+              border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
               borderRadius: "50%",
               width: "80px",
               height: "80px",
@@ -491,7 +494,7 @@ export default function Home() {
               boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
             }}
           >
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={colorScheme.primary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
           </button>
