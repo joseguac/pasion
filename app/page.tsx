@@ -10,7 +10,9 @@ interface Show {
   location: string;
   date: string;
   time: string;
-  status: "upcoming" | "past";
+  status?: "upcoming" | "past";
+  price?: string;
+  details?: string;
 }
 
 function ContactDialog({ onClose }: { onClose: () => void }) {
@@ -286,12 +288,13 @@ export default function Home() {
             borderRadius: "12px",
             padding: "15px 30px",
             color: "#ff0000",
-            fontSize: "18px",
+            fontSize: "24px",
             fontWeight: "bold",
             cursor: "pointer",
             marginTop: "20px",
             pointerEvents: "auto",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+            fontFamily: "'PE', sans-serif"
           }}
         >
           {showShows ? "Hide Shows" : "View Upcoming Shows"}
@@ -342,6 +345,11 @@ export default function Home() {
                       <p style={{ color: "#999", fontSize: "14px" }}>
                         🕐 {show.time}
                       </p>
+                      {show.details && (
+                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px" }}>
+                          ℹ️ {show.details}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -388,6 +396,11 @@ export default function Home() {
                       <p style={{ color: "#999", fontSize: "14px" }}>
                         🕐 {show.time}
                       </p>
+                      {show.details && (
+                        <p style={{ color: "#999", fontSize: "14px", marginTop: "5px" }}>
+                          ℹ️ {show.details}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>

@@ -1,0 +1,40 @@
+{
+  "shows": [
+    {
+      "id": 1,
+      "venue": "Fresita Fest Ed. 2025",
+      "location": "Orange County CA",
+      "date": "2025-05-16",
+      "time": "9:00 PM",
+      "price": "$40 before 10PM",
+      "details": "Doors open at 9PM"
+    },
+    {
+      "id": 2,
+      "venue": "Los Pistones de Uriel Valdez",
+      "location": "5629 W 5th St, Santa Ana CA",
+      "date": "2025-04-05",
+      "time": "9:00 PM",
+      "price": "$40 before 10:00pm",
+      "details": "Byob-All Ages Event-VIP Available"
+    },
+    {
+      "id": 3,
+      "venue": "Sencillitos Haunted Mansion",
+      "location": "1120 E 14th Pl, Los Angeles CA 90021",
+      "date": "2024-10-24",
+      "time": "9:00 PM",
+      "price": "$30 before 9:00"
+    },
+    {
+      "id": 4,
+      "venue": "OC Nightmare",
+      "location": "Santa Ana CA",
+      "date": "2024-10-31",
+      "time": "9:00 PM",
+      "price": "$40 before 9:30PM",
+      "details": "Doors open at 9PM"
+    }
+  ]
+}
+
