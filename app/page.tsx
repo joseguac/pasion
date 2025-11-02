@@ -288,7 +288,7 @@ export default function Home() {
             borderRadius: "12px",
             padding: "15px 30px",
             color: "#ff0000",
-            fontSize: "24px",
+            fontSize: "18px",
             fontWeight: "bold",
             cursor: "pointer",
             marginTop: "20px",
