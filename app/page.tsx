@@ -422,7 +422,7 @@ export default function Home() {
         }}>
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/pasionespecial"
+            href="https://www.instagram.com/pasionespecialoficial/"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -449,7 +449,7 @@ export default function Home() {
 
           {/* TikTok */}
           <a
-            href="https://www.tiktok.com/@pasionespecial"
+            href="https://www.tiktok.com/@pasionespecialoficial?_t=8q8YH5krSJz&_r=1"
             target="_blank"
             rel="noopener noreferrer"
             style={{
