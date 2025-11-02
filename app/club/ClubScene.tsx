@@ -28,10 +28,17 @@ function CloudParticle({
       rotation={[1.16, -0.12, rotationZ]}
     >
       <planeGeometry args={[500, 500]} />
-      <meshLambertMaterial
+      <meshStandardMaterial
         map={texture}
         transparent
-        opacity={0.55}
+        opacity={0.2}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+        side={THREE.DoubleSide}
+        emissive={new THREE.Color(0xff0000)}
+        emissiveIntensity={1}
+        roughness={1}
+        metalness={0}
       />
     </mesh>
   );
@@ -62,32 +69,38 @@ function Scene() {
 
   return (
     <>
-      {/* <color attach="background" args={[0x11111f]} /> */}
-      <fogExp2 attach="fog" args={[0x11111f, 0.002]} />
+      <color attach="background" args={[0x0a0a0f]} />
+      <fogExp2 attach="fog" args={[0x0a0a0f, 0.0008]} />
       
       {/* Ambient Light */}
-      <ambientLight intensity={0.4} color={0x555555} />
-      
-      {/* Directional Light */}
-      <directionalLight position={[0, 0, 1]} color={0xffeedd} />
+      <ambientLight intensity={0.8} color={0xff0000} />
       
       {/* Red Point Lights from bottom corners */}
       {/* Bottom Left Corner */}
       <pointLight 
-        position={[-300, -200, 100]} 
+        position={[-200, -100, 200]} 
         color={0xff0000}
-        intensity={50}
-        distance={800}
-        decay={1.5}
+        intensity={8000}
+        distance={1000}
+        decay={2}
       />
       
       {/* Bottom Right Corner */}
       <pointLight 
-        position={[300, -200, 100]} 
+        position={[200, -100, 200]} 
         color={0xff0000}
-        intensity={50}
+        intensity={8000}
+        distance={1000}
+        decay={2}
+      />
+      
+      {/* Center lights for extra brightness */}
+      <pointLight 
+        position={[0, -50, 100]} 
+        color={0xff0000}
+        intensity={5000}
         distance={800}
-        decay={1.5}
+        decay={2}
       />
       
       {/* Smoke Clouds */}
