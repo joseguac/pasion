@@ -9,47 +9,18 @@ function CloudParticle({
   texture, 
   position,
   rotationZ,
-  mousePos,
   colorHex
 }: { 
   texture: THREE.Texture; 
   position: [number, number, number];
   rotationZ: number;
-  mousePos: THREE.Vector2;
   colorHex: number;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const basePosition = useRef(new THREE.Vector3(...position));
-  const targetPosition = useRef(new THREE.Vector3(...position));
   
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.z -= 0.002;
-      
-      // Convert mouse position to world space
-      const mouseWorldX = mousePos.x * 400;
-      const mouseWorldY = mousePos.y * 400;
-      
-      // Calculate distance from mouse to particle
-      const dx = basePosition.current.x - mouseWorldX;
-      const dy = basePosition.current.y - mouseWorldY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      // Apply displacement based on distance
-      const maxDistance = 300;
-      const force = Math.max(0, 1 - distance / maxDistance);
-      
-      if (distance < maxDistance) {
-        targetPosition.current.x = basePosition.current.x + (dx / distance) * force * 150;
-        targetPosition.current.y = basePosition.current.y + (dy / distance) * force * 150;
-      } else {
-        targetPosition.current.x = basePosition.current.x;
-        targetPosition.current.y = basePosition.current.y;
-      }
-      
-      // Smooth interpolation
-      meshRef.current.position.x += (targetPosition.current.x - meshRef.current.position.x) * 0.1;
-      meshRef.current.position.y += (targetPosition.current.y - meshRef.current.position.y) * 0.1;
     }
   });
 
@@ -79,22 +50,12 @@ function CloudParticle({
 function Scene() {
   const colorScheme = useColorScheme();
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
-  const mousePos = useRef(new THREE.Vector2(0, 0));
 
   useEffect(() => {
     const loader = new THREE.TextureLoader();
     loader.load("https://raw.githubusercontent.com/navin-navi/codepen-assets/master/images/smoke.png", (loadedTexture) => {
       setTexture(loadedTexture);
     });
-
-    // Mouse tracking
-    const handleMouseMove = (event: MouseEvent) => {
-      mousePos.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mousePos.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const cloudParticles = useMemo(() => {
@@ -153,7 +114,6 @@ function Scene() {
           texture={texture}
           position={cloud.position}
           rotationZ={cloud.rotationZ}
-          mousePos={mousePos.current}
           colorHex={colorScheme.hex}
         />
       ))}
