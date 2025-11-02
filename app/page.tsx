@@ -2,7 +2,16 @@
 
 import Image from "next/image";
 import ClubScene from "./club/ClubScene";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+interface Show {
+  id: number;
+  venue: string;
+  location: string;
+  date: string;
+  time: string;
+  status: "upcoming" | "past";
+}
 
 function ContactDialog({ onClose }: { onClose: () => void }) {
   const [formData, setFormData] = useState({
@@ -194,120 +203,286 @@ function ContactDialog({ onClose }: { onClose: () => void }) {
 
 export default function Home() {
   const [showContactDialog, setShowContactDialog] = useState(false);
+  const [showShows, setShowShows] = useState(false);
+  const [shows, setShows] = useState<Show[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/shows.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const now = new Date();
+        const updatedShows = data.shows.map((show: Show) => {
+          const showDate = new Date(show.date);
+          const status = showDate >= now ? "upcoming" : "past";
+          return { ...show, status };
+        });
+        setShows(updatedShows);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const upcomingShows = shows.filter((show) => show.status === "upcoming");
+  const pastShows = shows
+    .filter((show) => show.status === "past")
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
-    <div style={{ height: "100vh", width: "100vw", position: "relative" }}>
-      <ClubScene />
-      
-      {/* Logo */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        paddingTop: "15vh",
-        pointerEvents: "none"
-      }}>
-        <Image 
-          src="/pasion.png" 
-          alt="Pasion Especial" 
-          width={1800}
-          height={1800}
-          style={{ maxWidth: "100%", height: "auto" }}
-          priority
-        />
+    <div style={{ minHeight: "100vh", width: "100vw", position: "relative", display: "flex", justifyContent: "center" }}>
+      {/* Smoke background - fills entire screen */}
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%" }}>
+        <ClubScene />
       </div>
-
-      {/* Social Media Icons */}
+      
+      {/* Content wrapper - mobile view container like Linktree */}
       <div style={{
-        position: "absolute",
-        bottom: "40px",
-        left: "50%",
-        transform: "translateX(-50%)",
+        position: "relative",
+        width: "100%",
+        maxWidth: "420px",
+        minHeight: "100vh",
         display: "flex",
-        gap: "30px",
+        flexDirection: "column",
         alignItems: "center",
-        pointerEvents: "auto"
+        paddingTop: "10vh",
+        paddingBottom: "120px"
       }}>
-        {/* Instagram */}
-        <a
-          href="https://www.instagram.com/pasionespecial"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            cursor: "pointer",
-            background: "rgba(255, 255, 255, 0.05)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 0, 0, 0.2)",
-            borderRadius: "50%",
-            width: "80px",
-            height: "80px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
-          }}
-        >
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-        </a>
+        {/* Logo */}
+        <div style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          pointerEvents: "none",
+          width: "100%"
+        }}>
+          <Image 
+            src="/pasion.png" 
+            alt="Pasion Especial" 
+            width={1800}
+            height={1800}
+            style={{ maxWidth: "100%", height: "auto" }}
+            priority
+          />
+        </div>
 
-        {/* TikTok */}
-        <a
-          href="https://www.tiktok.com/@pasionespecial"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            cursor: "pointer",
-            background: "rgba(255, 255, 255, 0.05)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 0, 0, 0.2)",
-            borderRadius: "50%",
-            width: "80px",
-            height: "80px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
-          }}
-        >
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-          </svg>
-        </a>
-
-        {/* Contact Message */}
+        {/* View Shows Button */}
         <button
-          onClick={() => setShowContactDialog(true)}
+          onClick={() => setShowShows(!showShows)}
           style={{
             background: "rgba(255, 255, 255, 0.05)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
             border: "1px solid rgba(255, 0, 0, 0.2)",
-            borderRadius: "50%",
-            width: "80px",
-            height: "80px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            borderRadius: "12px",
+            padding: "15px 30px",
+            color: "#ff0000",
+            fontSize: "18px",
+            fontWeight: "bold",
             cursor: "pointer",
-            padding: 0,
+            marginTop: "20px",
+            pointerEvents: "auto",
             boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
           }}
         >
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
+          {showShows ? "Hide Shows" : "View Upcoming Shows"}
         </button>
+
+        {/* Shows Section */}
+        <div style={{
+          width: "100%",
+          marginTop: "20px",
+          maxHeight: showShows ? "5000px" : "0",
+          overflow: "hidden",
+          transition: "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
+          opacity: showShows ? 1 : 0,
+          padding: "20px"
+        }}>
+          {loading ? (
+            <p style={{ color: "#999", textAlign: "center" }}>Loading...</p>
+          ) : (
+            <>
+              {/* Upcoming Shows */}
+              {upcomingShows.length > 0 && (
+                <div style={{ marginBottom: "30px" }}>
+                  <h3 style={{ color: "#ff0000", marginBottom: "15px", fontSize: "20px" }}>
+                    Upcoming Shows
+                  </h3>
+                  {upcomingShows.map((show) => (
+                    <div
+                      key={show.id}
+                      style={{
+                        background: "rgba(255, 255, 255, 0.05)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
+                        border: "1px solid rgba(255, 0, 0, 0.2)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        marginBottom: "15px"
+                      }}
+                    >
+                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px" }}>
+                        {show.venue}
+                      </h4>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                        📍 {show.location}
+                      </p>
+                      <p style={{ color: "#ff0000", marginBottom: "5px", fontSize: "14px", fontWeight: "bold" }}>
+                        📅 {formatDate(show.date)}
+                      </p>
+                      <p style={{ color: "#999", fontSize: "14px" }}>
+                        🕐 {show.time}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* No Upcoming Shows Message */}
+              {upcomingShows.length === 0 && (
+                <div style={{ marginBottom: "30px" }}>
+                  <p style={{ color: "#999", marginBottom: "20px", textAlign: "center", fontSize: "16px" }}>
+                    No upcoming shows right now — check out where we've played recently!
+                  </p>
+                </div>
+              )}
+
+              {/* Past Shows */}
+              {pastShows.length > 0 && (
+                <div>
+                  <h3 style={{ color: "#ff0000", marginBottom: "15px", fontSize: "20px" }}>
+                    Past Shows
+                  </h3>
+                  {pastShows.map((show) => (
+                    <div
+                      key={show.id}
+                      style={{
+                        background: "rgba(255, 255, 255, 0.05)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
+                        border: "1px solid rgba(255, 0, 0, 0.2)",
+                        borderRadius: "8px",
+                        padding: "20px",
+                        marginBottom: "15px",
+                        opacity: 0.7
+                      }}
+                    >
+                      <h4 style={{ color: "#ffffff", marginBottom: "8px", fontSize: "18px" }}>
+                        {show.venue}
+                      </h4>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                        📍 {show.location}
+                      </p>
+                      <p style={{ color: "#999", marginBottom: "5px", fontSize: "14px" }}>
+                        📅 {formatDate(show.date)}
+                      </p>
+                      <p style={{ color: "#999", fontSize: "14px" }}>
+                        🕐 {show.time}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Social Media Icons */}
+        <div style={{
+          position: "absolute",
+          bottom: "40px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          gap: "30px",
+          alignItems: "center",
+          pointerEvents: "auto"
+        }}>
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/pasionespecial"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              cursor: "pointer",
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 0, 0, 0.2)",
+              borderRadius: "50%",
+              width: "80px",
+              height: "80px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+            }}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          {/* TikTok */}
+          <a
+            href="https://www.tiktok.com/@pasionespecial"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              cursor: "pointer",
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 0, 0, 0.2)",
+              borderRadius: "50%",
+              width: "80px",
+              height: "80px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+            }}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+            </svg>
+          </a>
+
+          {/* Contact Message */}
+          <button
+            onClick={() => setShowContactDialog(true)}
+            style={{
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 0, 0, 0.2)",
+              borderRadius: "50%",
+              width: "80px",
+              height: "80px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              padding: 0,
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+            }}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Contact Dialog */}
