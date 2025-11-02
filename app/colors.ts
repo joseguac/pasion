@@ -1,17 +1,13 @@
 export interface ColorScheme {
   name: string;
   primary: string; // Hex color for main UI elements
-  hex: number; // For Three.js (0x format)
+  hex: number; // For Three.js (0x format) - default/center light
   rgb: string; // For rgba() usage
+  leftLightColor?: number; // Optional: For left light (Three.js format)
+  rightLightColor?: number; // Optional: For right light (Three.js format)
 }
 
 export const colorSchemes: ColorScheme[] = [
-  {
-    name: 'green',
-    primary: '#00ff00',
-    hex: 0x00ff00,
-    rgb: '0, 255, 0'
-  },
   {
     name: 'cyan',
     primary: '#00ffff',
@@ -35,6 +31,14 @@ export const colorSchemes: ColorScheme[] = [
     primary: '#ff00ff',
     hex: 0xff00ff,
     rgb: '255, 0, 255'
+  },
+  {
+    name: 'violet-cyan',
+    primary: '#ff00ff', // Use violet as primary for UI
+    hex: 0x8080ff, // Average for center light
+    rgb: '255, 0, 255',
+    leftLightColor: 0xff00ff, // Violet
+    rightLightColor: 0x00ffff // Cyan
   }
 ];
 

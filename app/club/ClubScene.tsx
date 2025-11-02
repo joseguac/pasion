@@ -122,7 +122,7 @@ function Scene() {
       {/* Bottom Left Corner */}
       <pointLight 
         position={[-200, -100, 200]} 
-        color={colorScheme.hex}
+        color={colorScheme.leftLightColor || colorScheme.hex}
         intensity={1000}
         distance={1000}
         decay={2}
@@ -131,7 +131,7 @@ function Scene() {
       {/* Bottom Right Corner */}
       <pointLight 
         position={[200, -100, 200]} 
-        color={colorScheme.hex}
+        color={colorScheme.rightLightColor || colorScheme.hex}
         intensity={1000}
         distance={1000}
         decay={2}
