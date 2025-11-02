@@ -443,6 +443,27 @@ export default function Home() {
           />
         </div>
 
+        {/* Contact Information */}
+        <a
+          href="sms:7147208320"
+          style={{
+            color: colorScheme.primary,
+            fontSize: "16px",
+            fontFamily: "'PE', sans-serif",
+            marginTop: "15px",
+            transform: showShows ? "translateY(-100vh)" : "translateY(0)",
+            opacity: showShows ? 0 : 1,
+            transition: "transform 0.6s ease-in-out, opacity 0.4s ease-in-out",
+            pointerEvents: "auto",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "block",
+            cursor: "pointer"
+          }}
+        >
+          Para Contrataciones: 714-720-8320
+        </a>
+
         {/* View Shows Button */}
         <button
           onClick={() => setShowShows(!showShows)}
