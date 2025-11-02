@@ -31,7 +31,7 @@ function CloudParticle({
       <meshStandardMaterial
         map={texture}
         transparent
-        opacity={0.2}
+        opacity={0.1}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
         side={THREE.DoubleSide}
