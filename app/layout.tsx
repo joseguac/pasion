@@ -4,7 +4,7 @@ import './globals.css'
 import { ColorProvider } from './ColorContext'
 
 export const metadata: Metadata = {
-  title: 'Pasión - Nightclub Experience',
+  title: 'Pasión Especial',
   description: '3D nightclub scene powered by Three.js',
 }
 
