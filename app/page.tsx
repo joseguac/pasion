@@ -4,6 +4,194 @@ import Image from "next/image";
 import ClubScene from "./club/ClubScene";
 import { useState } from "react";
 
+function ContactDialog({ onClose }: { onClose: () => void }) {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", phone: "", message: "" });
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+        pointerEvents: "auto"
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          backgroundColor: "#1a1a1a",
+          padding: "40px",
+          borderRadius: "12px",
+          maxWidth: "500px",
+          width: "90%",
+          border: "2px solid #ff0000",
+          position: "relative"
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "15px",
+            right: "15px",
+            background: "transparent",
+            border: "none",
+            color: "#ffffff",
+            fontSize: "24px",
+            cursor: "pointer",
+            padding: "5px 10px"
+          }}
+        >
+          ×
+        </button>
+
+        <h2 style={{ color: "#ff0000", marginBottom: "10px", fontSize: "28px" }}>
+          Déjanos Un Mensaje Aquí
+        </h2>
+
+        <p style={{ color: "#999", fontSize: "14px", marginBottom: "30px" }}>
+          Si unos de los numeros no contestan o solo prefiere mandar mensaje por aqui deje su numero o otro tipo de informacion.
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Name*"
+            required
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            style={{
+              width: "100%",
+              padding: "15px",
+              marginBottom: "20px",
+              backgroundColor: "#0a0a0a",
+              border: "1px solid #333",
+              borderRadius: "8px",
+              color: "#ffffff",
+              fontSize: "16px",
+              outline: "none"
+            }}
+          />
+
+          <input
+            type="tel"
+            placeholder="Mobile*"
+            required
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            style={{
+              width: "100%",
+              padding: "15px",
+              marginBottom: "20px",
+              backgroundColor: "#0a0a0a",
+              border: "1px solid #333",
+              borderRadius: "8px",
+              color: "#ffffff",
+              fontSize: "16px",
+              outline: "none"
+            }}
+          />
+
+          <textarea
+            placeholder="Message*"
+            required
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            rows={5}
+            style={{
+              width: "100%",
+              padding: "15px",
+              marginBottom: "20px",
+              backgroundColor: "#0a0a0a",
+              border: "1px solid #333",
+              borderRadius: "8px",
+              color: "#ffffff",
+              fontSize: "16px",
+              outline: "none",
+              resize: "vertical"
+            }}
+          />
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            style={{
+              width: "100%",
+              padding: "15px",
+              backgroundColor: "#ff0000",
+              border: "none",
+              borderRadius: "8px",
+              color: "#ffffff",
+              fontSize: "18px",
+              fontWeight: "bold",
+              cursor: isSubmitting ? "not-allowed" : "pointer",
+              opacity: isSubmitting ? 0.7 : 1
+            }}
+          >
+            {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+          </button>
+
+          {submitStatus === "success" && (
+            <p style={{ color: "#00ff00", marginTop: "15px", textAlign: "center" }}>
+              ¡Mensaje enviado con éxito!
+            </p>
+          )}
+
+          {submitStatus === "error" && (
+            <p style={{ color: "#ff0000", marginTop: "15px", textAlign: "center" }}>
+              Error al enviar. Por favor intenta de nuevo.
+            </p>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [showContactDialog, setShowContactDialog] = useState(false);
 
@@ -50,7 +238,20 @@ export default function Home() {
           href="https://www.instagram.com/pasionespecial"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.05)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 0, 0, 0.2)",
+            borderRadius: "50%",
+            width: "80px",
+            height: "80px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+          }}
         >
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -64,7 +265,20 @@ export default function Home() {
           href="https://www.tiktok.com/@pasionespecial"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.05)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 0, 0, 0.2)",
+            borderRadius: "50%",
+            width: "80px",
+            height: "80px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+          }}
         >
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
@@ -75,10 +289,19 @@ export default function Home() {
         <button
           onClick={() => setShowContactDialog(true)}
           style={{
-            background: "transparent",
-            border: "none",
+            background: "rgba(255, 255, 255, 0.05)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 0, 0, 0.2)",
+            borderRadius: "50%",
+            width: "80px",
+            height: "80px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             cursor: "pointer",
-            padding: 0
+            padding: 0,
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
           }}
         >
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -89,85 +312,7 @@ export default function Home() {
 
       {/* Contact Dialog */}
       {showContactDialog && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-            pointerEvents: "auto"
-          }}
-          onClick={() => setShowContactDialog(false)}
-        >
-          <div
-            style={{
-              backgroundColor: "#1a1a1a",
-              padding: "40px",
-              borderRadius: "12px",
-              maxWidth: "500px",
-              width: "90%",
-              border: "2px solid #ff0000",
-              position: "relative"
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowContactDialog(false)}
-              style={{
-                position: "absolute",
-                top: "15px",
-                right: "15px",
-                background: "transparent",
-                border: "none",
-                color: "#ffffff",
-                fontSize: "24px",
-                cursor: "pointer",
-                padding: "5px 10px"
-              }}
-            >
-              ×
-            </button>
-            
-            <h2 style={{ color: "#ff0000", marginBottom: "20px", fontSize: "28px" }}>
-              Para Contrataciones
-            </h2>
-            
-            <div style={{ color: "#ffffff", fontSize: "18px", marginBottom: "30px" }}>
-              <p style={{ marginBottom: "20px" }}>
-                Llámanos al:
-              </p>
-              <a
-                href="tel:714-720-8320"
-                style={{
-                  fontSize: "32px",
-                  fontWeight: "bold",
-                  color: "#ff0000",
-                  textDecoration: "none"
-                }}
-              >
-                714-720-8320
-              </a>
-            </div>
-            
-            <p style={{ color: "#999", fontSize: "14px" }}>
-              O visita nuestro{" "}
-              <a
-                href="https://linktr.ee/pasionespecial"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#ff0000" }}
-              >
-                Linktree
-              </a>
-            </p>
-          </div>
-        </div>
+        <ContactDialog onClose={() => setShowContactDialog(false)} />
       )}
     </div>
   );
