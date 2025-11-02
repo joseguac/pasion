@@ -62,7 +62,7 @@ function Scene() {
 
   return (
     <>
-      <color attach="background" args={[0x11111f]} />
+      {/* <color attach="background" args={[0x11111f]} /> */}
       <fogExp2 attach="fog" args={[0x11111f, 0.002]} />
       
       {/* Ambient Light */}
