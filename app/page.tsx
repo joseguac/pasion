@@ -264,80 +264,56 @@ export default function Home() {
         <ClubScene />
       </div>
       
-      {/* Content wrapper - mobile view container like Linktree */}
-      <div style={{
-        position: "relative",
-        width: "100%",
-        maxWidth: "420px",
-        minHeight: "100dvh", // Dynamic viewport height for mobile
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: "10vh",
-        paddingBottom: "120px",
-        zIndex: 1
-      }}>
-        {/* Logo */}
-        <div style={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          pointerEvents: "none",
-          width: "100%"
+      {/* Shows Section - full page overlay */}
+      <div 
+        className={showShows ? "shows-scroll" : ""}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          maxWidth: "420px",
+          height: showShows ? "100dvh" : "0",
+          overflowY: showShows ? "auto" : "hidden",
+          transition: "height 0.6s ease-in-out, opacity 0.5s ease-in-out",
+          opacity: showShows ? 1 : 0,
+          padding: showShows ? "20px" : "0",
+          paddingTop: showShows ? "60px" : "0",
+          paddingBottom: showShows ? "40px" : "0",
+          WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
+          scrollbarWidth: "thin", // Firefox
+          scrollbarColor: "rgba(255, 255, 255, 0.2) transparent", // Firefox
+          zIndex: showShows ? 10 : 0
         }}>
-          <Image 
-            src="/pasion.png" 
-            alt="Pasion Especial" 
-            width={1800}
-            height={1800}
-            style={{ maxWidth: "100%", height: "auto" }}
-            priority
-          />
-        </div>
-
-        {/* View Shows Button */}
-        <button
-          onClick={() => setShowShows(!showShows)}
-          style={{
-            background: "rgba(255, 255, 255, 0.05)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
-            borderRadius: "12px",
-            padding: "15px 30px",
-            color: colorScheme.primary,
-            fontSize: "18px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            marginTop: "20px",
-            pointerEvents: "auto",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
-            fontFamily: "'PE', sans-serif"
-          }}
-        >
-          {showShows ? "Hide Shows" : "View Upcoming Shows"}
-        </button>
-
-        {/* Shows Section */}
-        <div 
-          className={showShows ? "shows-scroll" : ""}
-          style={{
-            width: "100%",
-            marginTop: "20px",
-            maxHeight: showShows ? "60vh" : "0",
-            overflowY: showShows ? "auto" : "hidden",
-            transition: "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
-            opacity: showShows ? 1 : 0,
-            padding: "20px",
-            paddingBottom: showShows ? "40px" : "20px",
-            WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
-            scrollbarWidth: "thin", // Firefox
-            scrollbarColor: "rgba(255, 255, 255, 0.2) transparent" // Firefox
-          }}>
           {loading ? (
             <p style={{ color: "#999", textAlign: "center", fontFamily: "'PE', sans-serif" }}>Loading...</p>
           ) : (
             <>
+              {/* Hide Shows Button */}
+              <button
+                onClick={() => setShowShows(false)}
+                style={{
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
+                  borderRadius: "12px",
+                  padding: "15px 30px",
+                  color: colorScheme.primary,
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  marginBottom: "20px",
+                  pointerEvents: "auto",
+                  boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+                  fontFamily: "'PE', sans-serif",
+                  width: "100%"
+                }}
+              >
+                Hide Shows
+              </button>
+              
               {/* Upcoming Shows */}
               {upcomingShows.length > 0 && (
                 <div style={{ marginBottom: "30px" }}>
@@ -432,6 +408,66 @@ export default function Home() {
             </>
           )}
         </div>
+      
+      {/* Content wrapper - mobile view container like Linktree */}
+      <div style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: "420px",
+        minHeight: "100dvh", // Dynamic viewport height for mobile
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: "10vh",
+        paddingBottom: "120px",
+        zIndex: 1
+      }}>
+        {/* Logo */}
+        <div style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          pointerEvents: "none",
+          width: "100%",
+          transform: showShows ? "translateY(-100vh)" : "translateY(0)",
+          opacity: showShows ? 0 : 1,
+          transition: "transform 0.6s ease-in-out, opacity 0.4s ease-in-out"
+        }}>
+          <Image 
+            src="/pasion.png" 
+            alt="Pasion Especial" 
+            width={1800}
+            height={1800}
+            style={{ maxWidth: "100%", height: "auto" }}
+            priority
+          />
+        </div>
+
+        {/* View Shows Button */}
+        <button
+          onClick={() => setShowShows(!showShows)}
+          style={{
+            background: "rgba(255, 255, 255, 0.05)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: `1px solid rgba(${colorScheme.rgb}, 0.2)`,
+            borderRadius: "12px",
+            padding: "15px 30px",
+            color: colorScheme.primary,
+            fontSize: "18px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            marginTop: "20px",
+            pointerEvents: "auto",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+            fontFamily: "'PE', sans-serif",
+            transform: showShows ? "translateY(-100vh)" : "translateY(0)",
+            opacity: showShows ? 0 : 1,
+            transition: "transform 0.6s ease-in-out, opacity 0.4s ease-in-out"
+          }}
+        >
+          {showShows ? "Hide Shows" : "View Upcoming Shows"}
+        </button>
 
         {/* Social Media Icons */}
         <div style={{
@@ -442,7 +478,9 @@ export default function Home() {
           display: "flex",
           gap: "30px",
           alignItems: "center",
-          pointerEvents: "auto"
+          opacity: showShows ? 0 : 1,
+          transition: "opacity 0.3s ease-in-out",
+          pointerEvents: showShows ? "none" : "auto"
         }}>
           {/* Instagram */}
           <a
