@@ -249,8 +249,18 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: "100vh", width: "100vw", position: "relative", display: "flex", justifyContent: "center" }}>
-      {/* Smoke background - fills entire screen */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%" }}>
+      {/* Smoke background - fills entire screen and scrollable area */}
+      <div style={{ 
+        position: "absolute", 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        bottom: 0, 
+        width: "100%", 
+        height: "100%",
+        minHeight: "100dvh", // Dynamic viewport height for mobile (better than 100vh)
+        zIndex: 0
+      }}>
         <ClubScene />
       </div>
       
@@ -259,12 +269,13 @@ export default function Home() {
         position: "relative",
         width: "100%",
         maxWidth: "420px",
-        minHeight: "100vh",
+        minHeight: "100dvh", // Dynamic viewport height for mobile
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         paddingTop: "10vh",
-        paddingBottom: "120px"
+        paddingBottom: "120px",
+        zIndex: 1
       }}>
         {/* Logo */}
         <div style={{
@@ -315,7 +326,6 @@ export default function Home() {
             marginTop: "20px",
             maxHeight: showShows ? "60vh" : "0",
             overflowY: showShows ? "auto" : "hidden",
-            overflowX: "hidden",
             transition: "max-height 0.5s ease-in-out, opacity 0.3s ease-in-out",
             opacity: showShows ? 1 : 0,
             padding: "20px",

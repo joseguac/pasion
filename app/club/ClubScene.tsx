@@ -164,6 +164,7 @@ function Scene() {
 export default function ClubScene() {
   return (
     <Canvas
+      style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
       camera={{ 
         position: [0, 0, 1], 
         fov: 60,
