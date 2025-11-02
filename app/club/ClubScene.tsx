@@ -58,7 +58,7 @@ function Scene() {
     return [...Array(25)].map(() => ({
       position: [
         Math.random() * 800 - 400,
-        Math.random() * 400 + 50, // Spread clouds vertically between 50-450
+        Math.random() * 1800 + 50, // Spread clouds vertically between 50-450
         Math.random() * 500 - 500,
       ] as [number, number, number],
       rotationZ: Math.random() * 2 * Math.PI
@@ -80,7 +80,7 @@ function Scene() {
       <pointLight 
         position={[-200, -100, 200]} 
         color={0xff0000}
-        intensity={8000}
+        intensity={1000}
         distance={1000}
         decay={2}
       />
@@ -89,7 +89,7 @@ function Scene() {
       <pointLight 
         position={[200, -100, 200]} 
         color={0xff0000}
-        intensity={8000}
+        intensity={1000}
         distance={1000}
         decay={2}
       />
@@ -98,7 +98,7 @@ function Scene() {
       <pointLight 
         position={[0, -50, 100]} 
         color={0xff0000}
-        intensity={5000}
+        intensity={1000}
         distance={800}
         decay={2}
       />
